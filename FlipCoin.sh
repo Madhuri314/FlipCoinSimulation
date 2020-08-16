@@ -3,15 +3,19 @@
 heads=0
 tails=0
 
-while [[ ($tails -le 21) || ($heads -le 21) ]]
-do
-        rancheck=$((RANDOM % 2))
-        if [ $rancheck -eq 0 ]
+flipCoin() {
+        ranCheck=$((RANDOM % 2))
+        if [ $ranCheck -eq 0 ]
         then
                 ((tails++))
         else
                 ((heads++))
         fi
+}
+
+while [[ ($tails -le 21) || ($heads -le 21) ]]
+do
+        flipCoin
 done
 
 echo $heads
@@ -19,11 +23,15 @@ echo $tails
 
 if [ $heads -eq $tails ]
 then
-        echo "It's a tie"
+        while [[ ( $(( $heads-$tails )) -ne 2 ) || ( $(( $tails-$heads )) -ne 2 ) ]]
+        do
+                flipCoin
+        done
+
 elif [ $heads -gt $tails ]
 then
-        echo "Heads wins by" $(( $heads-$tails ))
+        echo "Heads wins"
 elif [ $heads -lt $tails ]
 then
-        echo "Tails wins by" $(( $tails-$heads ))
+        echo "Tails wins"
 fi
