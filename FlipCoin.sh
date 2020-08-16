@@ -1,16 +1,12 @@
 #!/bin/bash -x
 
-read -p "Enter number of times you want to flip a coin: " num
-
 heads=0
 tails=0
-counter=0
 
-while [ $counter -ne $num ]
+while [[ ($tails -le 21) || ($heads -le 21) ]]
 do
-        ((counter++))
-        ranCheck=$((RANDOM % 2))
-        if [ $ranCheck -eq 0 ]
+        rancheck=$((RANDOM % 2))
+        if [ $rancheck -eq 0 ]
         then
                 ((tails++))
         else
@@ -18,5 +14,16 @@ do
         fi
 done
 
-echo "Heads: " $heads
-echo "Tails: " $tails
+echo $heads
+echo $tails
+
+if [ $heads -eq $tails ]
+then
+        echo "It's a tie"
+elif [ $heads -gt $tails ]
+then
+        echo "Heads wins by" $(( $heads-$tails ))
+elif [ $heads -lt $tails ]
+then
+        echo "Tails wins by" $(( $tails-$heads ))
+fi
